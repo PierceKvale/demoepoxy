@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -72,6 +74,10 @@ const projects = [
 const categories = ["All", "Residential", "Commercial", "Industrial", "Kitchen", "Outdoor", "High-End Residential"];
 
 export default function GalleryPage() {
+  const [active, setActive] = useState("All");
+
+  const filtered = active === "All" ? projects : projects.filter((p) => p.category === active);
+
   return (
     <main className="bg-black text-white min-h-screen">
       {/* ── Header ── */}
@@ -95,16 +101,17 @@ export default function GalleryPage() {
       <section className="px-6 pb-12">
         <div className="max-w-6xl mx-auto flex flex-wrap gap-2 justify-center">
           {categories.map((cat) => (
-            <span
+            <button
               key={cat}
+              onClick={() => setActive(cat)}
               className={`px-4 py-2 rounded-full text-sm border transition cursor-pointer select-none ${
-                cat === "All"
+                active === cat
                   ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-300"
                   : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
               }`}
             >
               {cat}
-            </span>
+            </button>
           ))}
         </div>
       </section>
@@ -112,7 +119,7 @@ export default function GalleryPage() {
       {/* ── Masonry-style grid ── */}
       <section className="px-6 pb-28">
         <div className="max-w-6xl mx-auto columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
-          {projects.map(({ src, alt, title, category, desc }) => (
+          {filtered.map(({ src, alt, title, category, desc }) => (
             <div
               key={title}
               className="break-inside-avoid rounded-2xl overflow-hidden border border-white/10 bg-white/5 group hover:border-cyan-500/40 transition-colors"
@@ -151,7 +158,7 @@ export default function GalleryPage() {
           href="/contact"
           className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all shadow-xl shadow-cyan-500/25"
         >
-          Start Your Project <ArrowRight className="w-5 h-5" />
+          Get a Quote <ArrowRight className="w-5 h-5" />
         </Link>
       </section>
     </main>

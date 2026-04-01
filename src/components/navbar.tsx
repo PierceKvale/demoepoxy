@@ -7,7 +7,6 @@ import { Menu, X, Shield } from "lucide-react";
 const links = [
   { href: "/", label: "Home" },
   { href: "/gallery", label: "Gallery" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {
